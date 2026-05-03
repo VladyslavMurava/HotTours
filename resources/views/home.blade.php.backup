@@ -1,0 +1,50 @@
+@extends('layout')
+
+@section('title', 'Головна')
+@section('meta-description', 'Найкращі гарячі тури за доступними цінами.')
+
+@section('content')
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm border">
+        <div class="container-fluid py-5">
+            <h1 class="display-5 fw-bold">Знайдіть свій ідеальний відпочинок</h1>
+            <p class="col-md-8 fs-4">Ми пропонуємо ексклюзивні гарячі тури зі знижками до 40%. Бронюйте сьогодні, подорожуйте завтра.</p>
+            <a href="{{ route('tours.index') }}" class="btn btn-primary btn-lg">Переглянути всі тури</a>
+        </div>
+    </div>
+
+    <h2 class="mb-4 text-center">Топ гарячих пропозицій</h2>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 mb-5">
+        @forelse($tours as $tour)
+        <div class="col">
+            <div class="card h-100 shadow-sm">
+                @if($tour->image && file_exists(public_path('assets/tours/' . $tour->image)))
+                    <img src="{{ asset('assets/tours/' . $tour->image) }}" class="card-img-top" alt="{{ $tour->title }}">
+                @else
+                    <div class="bg-secondary text-white d-flex justify-content-center align-items-center p-5">
+                        <span>Фото відсутнє</span>
+                    </div>
+                @endif
+                <div class="card-body">
+                    <h5 class="card-title">{{ $tour->title }}</h5>
+                    <p class="card-text text-muted">{{ $tour->destination->name ?? 'Без напрямку' }}</p>
+                    <ul class="list-unstyled mb-3">
+                        <li>{{ $tour->duration }} ночей</li>
+                        @if($tour->departure_date)
+                            <li>Виліт: {{ date('d.m.Y', strtotime($tour->departure_date)) }}</li>
+                        @endif
+                    </ul>
+                    <h4 class="text-danger fw-bold">{{ number_format($tour->price, 0, '', ' ') }} грн</h4>
+                </div>
+                <div class="card-footer bg-transparent border-0 pb-3">
+                    <a href="{{ route('tours.show', $tour->id) }}" class="btn btn-outline-primary w-100">Деталі</a>
+                </div>
+            </div>
+        </div>
+        @empty
+            <div class="col-12">
+                <div class="alert alert-info text-center">Поки що немає доступних турів.</div>
+            </div>
+        @endforelse
+    </div>
+@endsection
