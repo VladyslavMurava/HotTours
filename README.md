@@ -1,59 +1,127 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# HotTours — Вебзастосунок туристичного агентства
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+Вебзастосунок для туристичного агентства, що дозволяє переглядати каталог турів, оформлювати заявки на бронювання та керувати контентом через адміністративну панель.
 
-## About Laravel
+## Технологічний стек
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Компонент | Технологія |
+|-----------|-----------|
+| Backend | PHP 8.2, Laravel 12 |
+| Frontend | Blade Templates, Bootstrap 5.3.2 |
+| СКБД | MySQL 8.0 |
+| Автентифікація | Laravel UI (session-based) |
+| Збирач ресурсів | Vite |
+| Пакетний менеджер PHP | Composer 2.x |
+| Пакетний менеджер JS | NPM |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+## Функціональність
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Каталог турів із фільтрацією (напрямок, ціна, тривалість, гарячі пропозиції)
+- Детальні сторінки турів із фотогалереєю
+- Система замовлень із особистим кабінетом користувача
+- Форма зворотного зв'язку для авторизованих користувачів
+- Адміністративна панель: управління турами, заявками, повідомленнями та статистикою
+- Рольова система доступу (user / admin)
 
-## Learning Laravel
+## Системні вимоги
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+| Компонент | Мінімальна версія |
+|-----------|------------------|
+| PHP | 8.2 |
+| MySQL | 5.7 / 8.0 |
+| Composer | 2.x |
+| Node.js | 18.x |
+| NPM | 9.x |
+| Вебсервер | Apache / Nginx |
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+**Обов'язкові PHP-розширення:** `pdo`, `pdo_mysql`, `mbstring`, `openssl`, `json`, `tokenizer`, `xml`, `ctype`, `fileinfo`, `bcmath`
 
-## Laravel Sponsors
+## Розгортання проєкту
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+### 1. Клонування репозиторію
 
-### Premium Partners
+```bash
+git clone https://github.com/VladyslavMurava/HotTours.git
+cd HotTours
+```
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+### 2. Встановлення PHP-залежностей
 
-## Contributing
+```bash
+composer install --optimize-autoloader --no-dev
+```
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+### 3. Налаштування середовища
 
-## Code of Conduct
+```bash
+cp .env.example .env
+php artisan key:generate
+```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+Відредагуйте файл `.env` — вкажіть параметри підключення до бази даних:
 
-## Security Vulnerabilities
+```ini
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.com
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+DB_CONNECTION=mysql
+DB_HOST=127.0.0.1
+DB_PORT=3306
+DB_DATABASE=hottours_db
+DB_USERNAME=your_username
+DB_PASSWORD=your_password
+```
 
-## License
+### 4. Збірка фронтенд-ресурсів
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+```bash
+npm install
+npm run build
+```
+
+### 5. Ініціалізація бази даних
+
+```bash
+php artisan migrate --force
+php artisan db:seed --class=TourSeeder
+```
+
+### 6. Призначення ролі адміністратора
+
+```bash
+php artisan tinker
+```
+
+```php
+$user = App\Models\User::where('email', 'your@email.com')->first();
+$role = App\Models\Role::where('name', 'admin')->first();
+$user->roles()->attach($role);
+```
+
+### 7. Налаштування прав доступу до директорій
+
+```bash
+chmod -R 775 storage bootstrap/cache
+```
+
+## Структура проєкту
+
+```
+app/
+├── Http/
+│   ├── Controllers/     # TourController, PagesController, TourImageController
+│   └── Middleware/      # AdminMiddleware
+├── Models/              # Tour, Destination, Order, Message, User, Role
+database/
+├── migrations/          # 12 файлів міграцій
+└── seeders/             # TourSeeder, OrderSeeder
+resources/views/
+├── tours/               # index, show, create, edit
+├── admin/               # orders, messages, stats
+└── layout.blade.php     # головний шаблон
+```
+
+## Ліцензія
+
+MIT
